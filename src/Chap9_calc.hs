@@ -27,6 +27,7 @@ seqn (a: ax) = do a
 box :: [String]
 box = ["+---------------+",
        "|               |",
+       "|               |",
        "+---+---+---+---+",
        "| q | c | d | = |",
        "+---+---+---+---+",
@@ -78,9 +79,10 @@ delete xs = calc (init xs)
 
 eval :: String -> IO ()
 eval xs = case parse expr xs of
-              [(n, "")] -> calc (show n)
-              _ -> do beep
-                      calc xs
+              [(n, "")] -> do showError 0
+                              calc (show n)
+              [(_, es)] -> do showError (length xs - length es )  --beep
+                              calc xs
 
 clear :: IO ()
 clear = calc ""
@@ -93,6 +95,13 @@ run = do cls
          showbox
          clear
 
+-- 2.
+parseError :: String -> String
+parseError xs = snd (head (parse expr xs))
+
+showError :: Int -> IO ()
+showError n | n > 0 = writeat (3 + n, 3) "^"
+            | otherwise = writeat (3, 3) "              "
 
 -- calc :: String -> IO()
 -- calc xs = do display xs

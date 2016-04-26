@@ -25,7 +25,7 @@ glidergun = [(2,6),(3,6),(2,7),(3,7),
              (36,4),(36,5),
              (37,4),(37,5) ]
 
-showcells :: Board -> IO ()
+showcells ::  Board -> IO ()
 showcells b = seqn [writeat p "○" | p <- b]
 
 isAlive :: Board -> Pos -> Bool
@@ -62,7 +62,7 @@ rmdups (x:xs) = x : rmdups (filter (/= x) xs)
 nextgen :: Board -> Board
 nextgen b = survivors b ++ births b
 
-life :: Board -> IO ()
+life :: Board  -> IO ()
 life b = do cls
             showcells b
             wait 50000
